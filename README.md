@@ -1014,9 +1014,6 @@ Removing checkbox-value evaluation significantly reduces query usage, but perfor
 ---
 
 # Screenshots
-
-Replace the placeholders below after the interface is finalized.
-
 <table>
     <tr>
         <td align="center" width="50%">
@@ -1055,6 +1052,10 @@ After adding the images, replace the placeholders with markup such as:
 ---
 
 # Demo Video
+
+
+
+
 
 
 
