@@ -1021,99 +1021,44 @@ Replace the placeholders below after the interface is finalized.
     <tr>
         <td align="center" width="50%">
             <strong>Initial Loading Experience</strong><br><br>
-            <em>Add screenshot:</em><br>
-            <code>docs/images/01-initial-loading.png</code>
+            <img width="1439" height="364" alt="image" src="https://github.com/user-attachments/assets/b8907fa0-f9b0-4a95-8352-2989f56e725b" />
         </td>
         <td align="center" width="50%">
             <strong>Runtime Configuration</strong><br><br>
-            <em>Add screenshot:</em><br>
-            <code>docs/images/02-runtime-configuration.png</code>
+            <img width="1404" height="688" alt="Screenshot 2026-07-28 at 9 02 36 AM" src="https://github.com/user-attachments/assets/9d478068-2e5b-4541-9f91-5129825f3bc8" />
         </td>
     </tr>
     <tr>
         <td align="center" width="50%">
             <strong>Object Selection</strong><br><br>
-            <em>Add screenshot:</em><br>
-            <code>docs/images/03-object-selection.png</code>
+            <img width="1409" height="617" alt="Screenshot 2026-07-28 at 9 03 49 AM" src="https://github.com/user-attachments/assets/27770929-38b7-4801-b9b5-306df79319b0" />
         </td>
         <td align="center" width="50%">
             <strong>Audit Progress</strong><br><br>
-            <em>Add screenshot:</em><br>
-            <code>docs/images/04-audit-progress.png</code>
+          <img width="1453" height="257" alt="Screenshot 2026-07-28 at 9 05 01 AM" src="https://github.com/user-attachments/assets/84d01d17-5ba5-4687-b5fd-a42798e2d11f" />
         </td>
     </tr>
     <tr>
         <td align="center" width="50%">
             <strong>Audit Rollups</strong><br><br>
-            <em>Add screenshot:</em><br>
-            <code>docs/images/05-audit-rollups.png</code>
+          <img width="514" height="410" alt="Screenshot 2026-07-28 at 9 06 28 AM" src="https://github.com/user-attachments/assets/e12228cb-dffd-409c-ba70-b2ddb4f62b4b" />
         </td>
         <td align="center" width="50%">
             <strong>Field Results</strong><br><br>
-            <em>Add screenshot:</em><br>
-            <code>docs/images/06-field-results.png</code>
+          <img width="1410" height="463" alt="Screenshot 2026-07-28 at 9 07 04 AM" src="https://github.com/user-attachments/assets/501481d1-c2ed-4209-a8a4-356a193e1459" />
         </td>
     </tr>
 </table>
 
 After adding the images, replace the placeholders with markup such as:
 
-```markdown
-![Object selection and audit controls](docs/images/03-object-selection.png)
-```
-
 ---
 
 # Demo Video
 
-Add the demonstration video after the workflow is finalized.
 
-## Suggested Demo Flow
 
-1. Select the install button from the README.
-2. Assign the `Data_Dictionary_App` permission set.
-3. Open the `Data_Dictionary` custom tab.
-4. Review the initial loading experience.
-5. Open the Runtime Configuration editor.
-6. Load a Sales Cloud or Service Cloud template.
-7. Format and apply the JSON.
-8. Search and select objects.
-9. Run the audit.
-10. Review audit progress.
-11. Review rollups and help-text icons.
-12. Filter and sort the results.
-13. Switch between pagination and infinite scrolling.
-14. Enable Trim Columns.
-15. Open a field in Lightning Setup.
-16. Export a CSV file.
 
-## Video Placeholder
-
-Suggested thumbnail:
-
-```text
-docs/images/demo-video-thumbnail.png
-```
-
-Suggested video URL placeholder:
-
-```text
-INSERT_DEMO_VIDEO_URL_HERE
-```
-
-When the video is ready, use:
-
-```html
-<p align="center">
-    <a href="INSERT_DEMO_VIDEO_URL_HERE">
-        <img
-            src="docs/images/demo-video-thumbnail.png"
-            alt="Watch the Data Dictionary Health Scan demo"
-            width="760"
-        >
-    </a>
-</p>
-```
 
 ---
 
