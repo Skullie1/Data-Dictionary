@@ -12,9 +12,7 @@
                 box-sizing:border-box;
             "
         >
-            <!--
-                Initial object-schema request.
-            -->
+            <!-- Initial object-schema request. -->
             <template lwc:if={isLoadingObjects}>
                 <section
                     aria-live="polite"
@@ -149,9 +147,7 @@
             </template>
 
             <template lwc:else>
-                <!--
-                    Runtime JSON configuration editor.
-                -->
+                <!-- Runtime JSON configuration editor. -->
                 <template lwc:if={showRuntimeConfigurationEditor}>
                     <section
                         style="
@@ -404,9 +400,7 @@
                     </section>
                 </template>
 
-                <!--
-                    Object selection, controls, and rollups.
-                -->
+                <!-- Object selection, controls, and rollups. -->
                 <section
                     style="
                         min-width:0;
@@ -665,12 +659,21 @@
                                 ></lightning-icon>
                             </div>
 
+                            <!--
+                                Fixed mode fills the entire card.
+
+                                Object Label and Object API Name share all remaining
+                                width after the selection checkbox and compact Type
+                                column.
+                            -->
                             <div
                                 style="
+                                    width:100%;
                                     height:clamp(18rem,38vh,24rem);
                                     border:1px solid #dddbda;
                                     border-radius:0.375rem;
                                     background:#ffffff;
+                                    overflow:hidden;
                                 "
                             >
                                 <lightning-datatable
@@ -683,7 +686,8 @@
                                     sorted-by={objectSortBy}
                                     sorted-direction={objectSortDirection}
                                     onsort={handleObjectSort}
-                                    column-widths-mode="auto"
+                                    column-widths-mode="fixed"
+                                    style="width:100%;"
                                     aria-label="Salesforce objects available for audit"
                                 ></lightning-datatable>
                             </div>
@@ -811,10 +815,6 @@
                                                             {tile.value}
                                                         </div>
 
-                                                        <!--
-                                                            Each tile label now includes a
-                                                            standard Salesforce help icon.
-                                                        -->
                                                         <div
                                                             style="
                                                                 display:flex;
