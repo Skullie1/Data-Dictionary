@@ -83,8 +83,7 @@ const CONFIGURATION_TEMPLATES = Object.freeze({
 });
 
 /*
- * Detailed explanations shown through lightning-helptext beside each
- * audit rollup tile.
+ * Detailed explanations shown beside each audit-rollup tile.
  */
 const ROLLUP_HELP_TEXT = Object.freeze({
     objects:
@@ -154,7 +153,7 @@ const ROLLUP_HELP_TEXT = Object.freeze({
         'Population-eligible fields with at least one populated record but a population percentage below the configured low-usage threshold.',
 
     'not-evaluated':
-        'Population-eligible fields whose aggregate count did not complete. This can occur because of query behavior, field-specific limitations, or the controller preserving its SOQL query reserve. Checkbox and Not Applicable fields are excluded.'
+        'Population-eligible fields whose aggregate count did not complete. Checkbox and Not Applicable fields are excluded.'
 });
 
 /*
@@ -310,26 +309,52 @@ function numberColumn(
 }
 
 /*
- * Object selector columns.
+ * Object-selector columns intentionally omit initialWidth on the two
+ * primary columns.
+ *
+ * With column-widths-mode="fixed", Object Label and Object API Name
+ * divide all available width left after the selection checkbox and
+ * the compact Type column.
  */
+function objectSelectionColumn(
+    label,
+    fieldName,
+    wrapText,
+    fixedWidth
+) {
+    const column = {
+        label,
+        fieldName,
+        type: 'text',
+        sortable: true,
+        wrapText: wrapText === true
+    };
+
+    if (fixedWidth) {
+        column.fixedWidth = fixedWidth;
+    }
+
+    return column;
+}
+
 const OBJECT_SELECTION_COLUMNS = [
-    textColumn(
+    objectSelectionColumn(
         'Object Label',
         'objectLabel',
-        220,
         true
     ),
-    textColumn(
+
+    objectSelectionColumn(
         'Object API Name',
         'value',
-        220,
         false
     ),
-    textColumn(
+
+    objectSelectionColumn(
         'Type',
         'objectTypeLabel',
-        100,
-        false
+        false,
+        120
     )
 ];
 
@@ -484,103 +509,122 @@ const TECHNICAL_TABLE_COLUMNS = [
         'populationAnalysisApplicable',
         145
     ),
+
     booleanColumn(
         'Checkbox',
         'checkboxField',
         95
     ),
+
     textColumn(
         'Usage Method',
         'usageMethod',
         155,
         true
     ),
+
     booleanColumn(
         'Required',
         'required',
         95
     ),
+
     booleanColumn(
         'Custom',
         'customField',
         90
     ),
+
     booleanColumn(
         'Formula',
         'calculated',
         90
     ),
+
     textColumn(
         'Formula Expression',
         'calculatedFormula',
         300,
         true
     ),
+
     booleanColumn(
         'External ID',
         'externalId',
         105
     ),
+
     booleanColumn(
         'Unique',
         'uniqueField',
         90
     ),
+
     booleanColumn(
         'Createable',
         'createable',
         105
     ),
+
     booleanColumn(
         'Updateable',
         'updateable',
         105
     ),
+
     booleanColumn(
         'Filterable',
         'filterable',
         100
     ),
+
     booleanColumn(
         'Groupable',
         'groupable',
         100
     ),
+
     booleanColumn(
         'Sortable',
         'sortable',
         90
     ),
+
     numberColumn(
         'Length',
         'length',
         90,
         0
     ),
+
     numberColumn(
         'Precision',
         'precision',
         95,
         0
     ),
+
     numberColumn(
         'Scale',
         'scale',
         80,
         0
     ),
+
     textColumn(
         'Reference To',
         'referenceTo',
         180,
         true
     ),
+
     numberColumn(
         'Active Picklist Values',
         'activePicklistValueCount',
         165,
         0
     ),
+
     textColumn(
         'Note',
         'note',
@@ -610,8 +654,8 @@ const FULL_TABLE_BODY_COLUMNS = [
 ].concat(TECHNICAL_TABLE_COLUMNS);
 
 /*
- * Trimmed mode omits the Has Description and Has Help Text Boolean columns
- * and all technical columns after Metadata Audit Status.
+ * Trimmed mode omits the Has Description and Has Help Text Boolean
+ * columns and all technical columns after Metadata Audit Status.
  */
 const TRIMMED_TABLE_BODY_COLUMNS = [
     FIELD_LABEL_COLUMN,
@@ -1423,9 +1467,6 @@ export default class DataDictionaryAudit extends LightningElement {
     /**
      * Groups rollups into scope, documentation, governance,
      * technical metadata, and population analysis.
-     *
-     * Every tile includes helpText for the standard Salesforce
-     * lightning-helptext icon rendered by the HTML template.
      */
     get summaryGroups() {
         const summary =
@@ -1442,14 +1483,17 @@ export default class DataDictionaryAudit extends LightningElement {
                 key: 'scope',
                 title: 'Scope',
                 iconName: 'utility:summary',
+
                 tiles: [
                     {
                         key: 'objects',
                         value: summary.objectCount,
                         label: 'Objects Audited',
+
                         detail:
                             fields +
                             ' fields analyzed',
+
                         helpText:
                             ROLLUP_HELP_TEXT.objects
                     },
@@ -1457,29 +1501,36 @@ export default class DataDictionaryAudit extends LightningElement {
                         key: 'fields',
                         value: fields,
                         label: 'Fields Audited',
+
                         detail:
                             summary.objectCount +
                             ' objects analyzed',
+
                         helpText:
                             ROLLUP_HELP_TEXT.fields
                     },
+
                     this.metricTile(
                         'population-eligible',
                         'Population Eligible',
                         eligible,
                         fields
                     ),
+
                     {
                         key: 'checkbox-fields',
                         value: summary.checkboxFields,
                         label: 'Checkbox Fields',
+
                         detail:
                             'Metadata only; value analysis excluded',
+
                         helpText:
                             ROLLUP_HELP_TEXT[
                                 'checkbox-fields'
                             ]
                     },
+
                     this.metricTile(
                         'other-not-applicable',
                         'Other Not Applicable',
@@ -1492,6 +1543,7 @@ export default class DataDictionaryAudit extends LightningElement {
                 key: 'documentation',
                 title: 'Documentation',
                 iconName: 'utility:knowledge_base',
+
                 tiles: [
                     this.metricTile(
                         'documented',
@@ -1501,6 +1553,7 @@ export default class DataDictionaryAudit extends LightningElement {
                         'evaluated fields',
                         'Documentation metadata unavailable'
                     ),
+
                     this.metricTile(
                         'missing-description',
                         'Missing Description',
@@ -1509,6 +1562,7 @@ export default class DataDictionaryAudit extends LightningElement {
                         'evaluated fields',
                         'Description metadata unavailable'
                     ),
+
                     this.metricTile(
                         'missing-help',
                         'Missing Help Text',
@@ -1521,6 +1575,7 @@ export default class DataDictionaryAudit extends LightningElement {
                 key: 'governance',
                 title: 'Governance',
                 iconName: 'utility:shield',
+
                 tiles: [
                     this.metricTile(
                         'history-tracked',
@@ -1530,6 +1585,7 @@ export default class DataDictionaryAudit extends LightningElement {
                         'evaluated fields',
                         'History metadata unavailable'
                     ),
+
                     this.metricTile(
                         'field-usage-set',
                         'Field Usage Set',
@@ -1538,6 +1594,7 @@ export default class DataDictionaryAudit extends LightningElement {
                         'evaluated fields',
                         'Field Usage metadata unavailable'
                     ),
+
                     this.metricTile(
                         'sensitivity-set',
                         'Sensitivity Set',
@@ -1546,6 +1603,7 @@ export default class DataDictionaryAudit extends LightningElement {
                         'evaluated fields',
                         'Sensitivity metadata unavailable'
                     ),
+
                     this.metricTile(
                         'compliance-set',
                         'Compliance Set',
@@ -1554,6 +1612,7 @@ export default class DataDictionaryAudit extends LightningElement {
                         'evaluated fields',
                         'Compliance metadata unavailable'
                     ),
+
                     this.metricTile(
                         'governance-complete',
                         'Governance Complete',
@@ -1568,6 +1627,7 @@ export default class DataDictionaryAudit extends LightningElement {
                 key: 'technical',
                 title: 'Technical Metadata',
                 iconName: 'utility:settings',
+
                 tiles: [
                     this.metricTile(
                         'custom',
@@ -1575,36 +1635,42 @@ export default class DataDictionaryAudit extends LightningElement {
                         summary.customFields,
                         fields
                     ),
+
                     this.metricTile(
                         'required',
                         'Required Fields',
                         summary.requiredFields,
                         fields
                     ),
+
                     this.metricTile(
                         'formula',
                         'Formula Fields',
                         summary.formulaFields,
                         fields
                     ),
+
                     this.metricTile(
                         'external',
                         'External IDs',
                         summary.externalIdFields,
                         fields
                     ),
+
                     this.metricTile(
                         'unique',
                         'Unique Fields',
                         summary.uniqueFields,
                         fields
                     ),
+
                     this.metricTile(
                         'picklist',
                         'Picklist Fields',
                         summary.picklistFields,
                         fields
                     ),
+
                     this.metricTile(
                         'relationship',
                         'Relationship Fields',
@@ -1617,6 +1683,7 @@ export default class DataDictionaryAudit extends LightningElement {
                 key: 'population',
                 title: 'Population Analysis',
                 iconName: 'utility:chart',
+
                 tiles: [
                     this.metricTile(
                         'no-data',
@@ -1624,6 +1691,7 @@ export default class DataDictionaryAudit extends LightningElement {
                         summary.noData,
                         eligible
                     ),
+
                     this.metricTile(
                         'low-usage',
                         (
@@ -1634,6 +1702,7 @@ export default class DataDictionaryAudit extends LightningElement {
                         summary.lowUsage,
                         eligible
                     ),
+
                     this.metricTile(
                         'not-evaluated',
                         'Not Evaluated',
@@ -1647,9 +1716,6 @@ export default class DataDictionaryAudit extends LightningElement {
 
     /**
      * Creates one consistently formatted rollup tile.
-     *
-     * The help text is resolved by tile key so all descriptions
-     * are maintained in one constant near the top of the file.
      */
     metricTile(
         key,
@@ -1663,6 +1729,7 @@ export default class DataDictionaryAudit extends LightningElement {
             key,
             label,
             value,
+
             detail:
                 this.metricDetail(
                     value,
@@ -1672,6 +1739,7 @@ export default class DataDictionaryAudit extends LightningElement {
                     emptyText ||
                         'No applicable fields'
                 ),
+
             helpText:
                 ROLLUP_HELP_TEXT[key] ||
                 'Displays the number of audited fields matching this category.'
@@ -1786,7 +1854,9 @@ export default class DataDictionaryAudit extends LightningElement {
 
         if (
             parsed === null ||
-            Array.isArray(parsed) ||
+            Array.isArray(
+                parsed
+            ) ||
             typeof parsed !==
                 'object'
         ) {
@@ -2102,6 +2172,7 @@ export default class DataDictionaryAudit extends LightningElement {
                                     this.extractObjectLabel(
                                         option
                                     ),
+
                                 objectTypeLabel:
                                     option.objectTypeLabel ||
                                     (
@@ -2732,11 +2803,13 @@ export default class DataDictionaryAudit extends LightningElement {
         const objectResult = {
             objectApiName,
             objectLabel,
+
             displayLabel:
                 objectLabel +
                 ' (' +
                 objectApiName +
                 ')',
+
             fieldCount:
                 rows.length
         };
@@ -2819,6 +2892,7 @@ export default class DataDictionaryAudit extends LightningElement {
                         ' - ' +
                         objectResult.fieldCount +
                         ' fields',
+
                     value:
                         objectResult.objectApiName
                 })
@@ -2828,6 +2902,7 @@ export default class DataDictionaryAudit extends LightningElement {
             {
                 label:
                     viewAllLabel,
+
                 value:
                     VIEW_ALL_OBJECTS
             }
@@ -3423,7 +3498,7 @@ export default class DataDictionaryAudit extends LightningElement {
             this.filteredRows.slice(
                 startIndex,
                 startIndex +
-                this.rowBatchSize
+                    this.rowBatchSize
             );
 
         this.shouldScrollResultsToTop =
@@ -3781,6 +3856,7 @@ export default class DataDictionaryAudit extends LightningElement {
             const result =
                 await auditObject({
                     objectApiName,
+
                     configurationJson:
                         this.effectiveConfigurationJson
                 });
@@ -3869,12 +3945,14 @@ export default class DataDictionaryAudit extends LightningElement {
         if (wasCancelled) {
             this.showToast(
                 'Audit stopped',
+
                 (
                     this.progressCurrent +
                     ' of ' +
                     this.progressTotal +
                     ' objects completed. Completed results were kept.'
                 ),
+
                 'warning'
             );
 
@@ -3885,6 +3963,7 @@ export default class DataDictionaryAudit extends LightningElement {
             this.auditErrors.length
                 ? 'Audit completed with errors'
                 : 'Audit complete',
+
             this.auditErrors.length
                 ? (
                     this.auditErrors.length +
@@ -3896,6 +3975,7 @@ export default class DataDictionaryAudit extends LightningElement {
                     this.summaryMetrics.fieldCount +
                     ' field(s) evaluated.'
                 ),
+
             this.auditErrors.length
                 ? 'warning'
                 : 'success'
@@ -4037,6 +4117,7 @@ export default class DataDictionaryAudit extends LightningElement {
 
             downloadLink.setAttribute(
                 'download',
+
                 (
                     'data-dictionary-' +
                     objectScope +
@@ -4132,37 +4213,48 @@ export default class DataDictionaryAudit extends LightningElement {
                     ' (' +
                     row.objectApiName +
                     ')',
+
                 fieldHistoryTrackingStatus:
                     row.fieldHistoryTrackingStatus ||
                     'Unavailable',
+
                 description:
                     row.description ||
                     '',
+
                 helpText:
                     row.helpText ||
                     '',
+
                 fieldUsage:
                     row.fieldUsage ||
                     '',
+
                 dataSensitivityLevel:
                     row.dataSensitivityLevel ||
                     '',
+
                 complianceCategorization:
                     row.complianceCategorization ||
                     '',
+
                 calculatedFormula:
                     row.calculatedFormula ||
                     '',
+
                 referenceTo:
                     row.referenceTo ||
                     '',
+
                 note:
                     row.note ||
                     '',
+
                 setupUrl:
                     this.buildFieldSetupPath(
                         row
                     ),
+
                 setupActionTitle:
                     directEdit
                         ? (
