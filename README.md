@@ -1,9 +1,5 @@
 # Salesforce DX Project: Next Steps
 
-Deploy manifest from repo <a href="https://githubsfdeploy.herokuapp.com">
-  <img alt="Deploy to Salesforce"
-       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
-</a>
 
 <!--
 =============================================================================
@@ -17,6 +13,11 @@ buttons here.
 =============================================================================
 -->
 
+
+Deploy manifest from repo <a href="https://githubsfdeploy.herokuapp.com">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+</a>
 
 <div align="center">
 
