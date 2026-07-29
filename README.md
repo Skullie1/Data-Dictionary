@@ -14,9 +14,12 @@ buttons here.
 -->
 
 
-Deploy manifest from repo <a href="https://githubsfdeploy.herokuapp.com">
-  <img alt="Deploy to Salesforce"
-       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+Deploy manifest from repo
+
+<a href="https://githubsfdeploy.herokuapp.com?owner=Skullie1&amp;repo=Data-Dictionary&amp;ref=main">
+  <img
+    alt="Deploy to Salesforce"
+    src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
 </a>
 
 <div align="center">
